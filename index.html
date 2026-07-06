@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stunning-octo-broccoli — 编程学习 × 公益</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥦</text></svg>">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <a href="#" class="logo">
+        <span class="logo-icon">🐙🥦</span>
+        <span>stunning-octo-broccoli</span>
+      </a>
+      <nav class="nav">
+        <a href="#modules">学习模块</a>
+        <a href="#playground">练习场</a>
+        <a href="#charity">公益计划</a>
+        <a href="https://github.com/beforewind6/stunning-octo-broccoli" target="_blank" class="btn btn-outline">GitHub</a>
+      </nav>
+      <button class="mobile-toggle" aria-label="菜单">☰</button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">✨ 开源公益项目</div>
+        <h1>用代码种下<br>一棵<span class="highlight">西兰花</span> 🌳</h1>
+        <p class="hero-subtitle">
+          8 个精美互动模块 · 从零开始学编程 · 所有收益捐赠公益
+        </p>
+        <div class="hero-actions">
+          <a href="#modules" class="btn btn-primary">开始学习</a>
+          <a href="#playground" class="btn btn-outline">在线练习场</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong>8</strong><span>学习模块</span></div>
+          <div class="stat"><strong>∞</strong><span>无限练习</span></div>
+          <div class="stat"><strong>100%</strong><span>收益捐赠</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="mascot" id="mascot">
+          <pre class="ascii-art">
+   🐙 + 🥦
+      ╭─────────╮
+     /           \
+    │  ◉     ◉   │
+    │    ▿▿▿    │
+    │  ───────  │
+     \ ~~~~~~~~~ /
+      ╰─╮╮╮╮╮╮╮─╯
+       ╰╯╰╯╰╯╰╯
+   OCTO-BROCCOLI
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 120"><path fill="var(--bg)" d="M0,80 C360,0 720,120 1080,60 C1260,30 1380,90 1440,80 L1440,120 L0,120 Z"/></svg>
+    </div>
+  </section>
+
+  <!-- Modules Section -->
+  <section id="modules" class="section modules">
+    <div class="container">
+      <div class="section-header">
+        <h2>🐙 八条触手 · 八大模块</h2>
+        <p>像章鱼的触手一样，每条触手带你探索编程世界的一个维度</p>
+      </div>
+      <div class="module-grid" id="moduleGrid">
+        <div class="module-card" data-module="1">
+          <div class="card-icon">🌱</div>
+          <h3>Seed · Hello World</h3>
+          <p>写出你的第一行代码，理解程序是什么</p>
+          <span class="card-tag">入门</span>
+        </div>
+        <div class="module-card" data-module="2">
+          <div class="card-icon">📦</div>
+          <h3>Sprout · 变量与类型</h3>
+          <p>用变量存储数据，了解数据类型的世界</p>
+          <span class="card-tag">基础</span>
+        </div>
+        <div class="module-card" data-module="3">
+          <div class="card-icon">🔄</div>
+          <h3>Branch · 条件与循环</h3>
+          <p>让程序学会做判断、重复做事</p>
+          <span class="card-tag">核心</span>
+        </div>
+        <div class="module-card" data-module="4">
+          <div class="card-icon">🌿</div>
+          <h3>Leaf · 函数</h3>
+          <p>封装可复用的代码块，像搭积木一样编程</p>
+          <span class="card-tag">核心</span>
+        </div>
+        <div class="module-card" data-module="5">
+          <div class="card-icon">📋</div>
+          <h3>Tree · 数据结构</h3>
+          <p>用数组、对象组织数据，构建信息之树</p>
+          <span class="card-tag">进阶</span>
+        </div>
+        <div class="module-card" data-module="6">
+          <div class="card-icon">🐛</div>
+          <h3>Debug · 调试技巧</h3>
+          <p>Bug 不可怕，学会像侦探一样排查问题</p>
+          <span class="card-tag">技巧</span>
+        </div>
+        <div class="module-card" data-module="7">
+          <div class="card-icon">🌐</div>
+          <h3>Web · 网页基础</h3>
+          <p>HTML + CSS + JS，构建你的第一个网页</p>
+          <span class="card-tag">项目</span>
+        </div>
+        <div class="module-card" data-module="8">
+          <div class="card-icon">🤝</div>
+          <h3>Harvest · 开源贡献</h3>
+          <p>加入开源社区，提交你的第一个 PR</p>
+          <span class="card-tag">实战</span>
+        </div>
+      </div>
+
+      <!-- Progress Tracker -->
+      <div class="progress-section">
+        <div class="progress-header">
+          <h3>🌳 你的西兰花成长进度</h3>
+          <span id="progressText">0 / 8 模块完成</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-stages" id="progressStages">
+          <span data-stage="0">🌰</span>
+          <span data-stage="1">🌱</span>
+          <span data-stage="2">🌿</span>
+          <span data-stage="3">🪴</span>
+          <span data-stage="4">🌳</span>
+          <span data-stage="5">🥦</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Playground Section -->
+  <section id="playground" class="section playground">
+    <div class="container">
+      <div class="section-header">
+        <h2>⚡ 在线练习场</h2>
+        <p>直接在这里写代码并运行，无需安装任何东西</p>
+      </div>
+      <div class="playground-layout">
+        <div class="editor-panel">
+          <div class="panel-header">
+            <span class="panel-dot red"></span>
+            <span class="panel-dot yellow"></span>
+            <span class="panel-dot green"></span>
+            <span class="panel-title">main.js</span>
+          </div>
+          <textarea id="codeEditor" class="code-editor" spellcheck="false">// 🥦 欢迎来到 Octo-Broccoli 练习场！
+// 试试修改这段代码，然后点击"运行"
+
+function growBroccoli(days) {
+  let size = "🌰";
+  for (let i = 0; i < days; i++) {
+    if (i < 2) size = "🌱";
+    else if (i < 5) size = "🌿";
+    else size = "🥦";
+  }
+  return `第 ${days} 天: ${size}`;
+}
+
+console.log("🥦 Octo-Broccoli 编程乐园");
+console.log("=".repeat(25));
+console.log(growBroccoli(3));
+console.log(growBroccoli(7));
+
+console.log("\n📊 学习进度报告:");
+for (let m = 1; m <= 8; m++) {
+  console.log(`  模块 ${m}: ${"⭐".repeat(m)}`);
+}</textarea>
+          <div class="panel-actions">
+            <button id="runBtn" class="btn btn-primary">▶ 运行代码</button>
+            <button id="resetBtn" class="btn btn-ghost">↺ 重置</button>
+          </div>
+        </div>
+        <div class="output-panel">
+          <div class="panel-header">
+            <span class="panel-title">📤 输出</span>
+            <button id="clearOutput" class="btn-mini">清除</button>
+          </div>
+          <pre id="output" class="output-area">点击"运行代码"查看结果...</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charity Section -->
+  <section id="charity" class="section charity">
+    <div class="container">
+      <div class="section-header">
+        <h2>💚 西兰花公益计划</h2>
+        <p>本项目所有收益 100% 捐赠于西兰花公益计划</p>
+      </div>
+      <div class="charity-cards">
+        <div class="charity-card">
+          <div class="charity-icon">📚</div>
+          <h3>编程教育</h3>
+          <p>为偏远地区孩子提供免费编程课程和硬件设备</p>
+        </div>
+        <div class="charity-card">
+          <div class="charity-icon">🌍</div>
+          <h3>开源奖学金</h3>
+          <p>资助优秀开源贡献者，鼓励更多人参与开源</p>
+        </div>
+        <div class="charity-card">
+          <div class="charity-icon">🌱</div>
+          <h3>绿色技术</h3>
+          <p>推广可持续技术实践，用代码守护地球</p>
+        </div>
+      </div>
+      <div class="donation-tracker">
+        <h3>🎯 筹款进度</h3>
+        <div class="donation-bar">
+          <div class="donation-fill" style="width: 0%"></div>
+        </div>
+        <div class="donation-info">
+          <span>¥0</span>
+          <span>目标: ¥50,000</span>
+        </div>
+        <p class="donation-note">⭐ 每一次 Star、每一次 PR，都是对公益的支持</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <span class="logo-icon">🐙🥦</span>
+          <strong>stunning-octo-broccoli</strong>
+          <p>学习编程 · 传递善意 · 共建开源</p>
+        </div>
+        <div class="footer-links">
+          <div class="link-group">
+            <h4>项目</h4>
+            <a href="#modules">学习模块</a>
+            <a href="#playground">练习场</a>
+            <a href="#charity">公益计划</a>
+          </div>
+          <div class="link-group">
+            <h4>社区</h4>
+            <a href="https://github.com/beforewind6/stunning-octo-broccoli" target="_blank">GitHub</a>
+            <a href="https://github.com/beforewind6/stunning-octo-broccoli/issues" target="_blank">问题反馈</a>
+            <a href="https://github.com/beforewind6/stunning-octo-broccoli/blob/main/CONTRIBUTING.md" target="_blank">贡献指南</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Made with 🥦 by the open-source community | MIT License</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
