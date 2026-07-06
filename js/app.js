@@ -8,9 +8,17 @@
 
   // ─── State ────────────────────────────────────────────
   const TOTAL_MODULES = 8;
+  const PARTICLE_BURST = 6;
+  const PARTICLE_EMOJIS = ['🥦', '⭐', '🌱', '💚', '✨', '🐙'];
+  const SPAWN_COOLDOWN_MS = 280;
+
   let completedModules = new Set(
     JSON.parse(localStorage.getItem('sob_progress') || '[]')
   );
+  let lastSpawnAt = 0;
+  let particlePool = [];
+  let particleLayer = null;
+  let modulesBound = false;
 
   // ─── DOM refs ────────────────────────────────────────
   const $ = (sel) => document.querySelector(sel);
@@ -27,18 +35,19 @@
   const clearOutput = $('#clearOutput');
 
   // ─── Module Cards ─────────────────────────────────────
-  function renderModules() {
+  function updateModuleStates() {
     if (!moduleGrid) return;
-    const cards = moduleGrid.querySelectorAll('.module-card');
-    cards.forEach((card, i) => {
-      const modNum = i + 1;
-      if (completedModules.has(modNum)) {
-        card.classList.add('completed');
-      } else {
-        card.classList.remove('completed');
-      }
-      card.addEventListener('click', () => toggleModule(modNum));
+    moduleGrid.querySelectorAll('.module-card').forEach((card, i) => {
+      card.classList.toggle('completed', completedModules.has(i + 1));
     });
+  }
+
+  function bindModuleCards() {
+    if (!moduleGrid || modulesBound) return;
+    moduleGrid.querySelectorAll('.module-card').forEach((card, i) => {
+      card.addEventListener('click', () => toggleModule(i + 1));
+    });
+    modulesBound = true;
   }
 
   function toggleModule(n) {
@@ -46,39 +55,75 @@
       completedModules.delete(n);
     } else {
       completedModules.add(n);
-      spawnParticles(n);
     }
     syncProgress();
     localStorage.setItem('sob_progress', JSON.stringify([...completedModules]));
-    renderModules();
+    updateModuleStates();
   }
 
-  function spawnParticles(n) {
-    const card = document.querySelector(`[data-module="${n}"]`);
-    if (!card) return;
-    const emojis = ['🥦', '⭐', '🌱', '💚', '✨', '🐙'];
-    for (let i = 0; i < 6; i++) {
+  function initParticleLayer() {
+    if (particleLayer) return;
+
+    particleLayer = document.createElement('div');
+    particleLayer.className = 'particle-layer';
+    particleLayer.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(particleLayer);
+
+    const poolSize = PARTICLE_BURST * 8;
+    for (let i = 0; i < poolSize; i++) {
       const particle = document.createElement('span');
-      particle.textContent = emojis[i];
-      particle.style.cssText = `
-        position: fixed;
-        pointer-events: none;
-        z-index: 999;
-        font-size: ${14 + Math.random() * 16}px;
-        left: ${card.getBoundingClientRect().left + card.offsetWidth / 2}px;
-        top: ${card.getBoundingClientRect().top + card.offsetHeight / 2}px;
-        transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        opacity: 1;
-      `;
-      document.body.appendChild(particle);
-
-      requestAnimationFrame(() => {
-        particle.style.transform = `translate(${(Math.random() - 0.5) * 200}px, ${(Math.random() - 0.5) * 200}px)`;
-        particle.style.opacity = '0';
+      particle.className = 'particle';
+      particle.dataset.free = '1';
+      particle.addEventListener('animationend', () => {
+        particle.classList.remove('is-flying');
+        particle.dataset.free = '1';
       });
-
-      setTimeout(() => particle.remove(), 900);
+      particleLayer.appendChild(particle);
+      particlePool.push(particle);
     }
+  }
+
+  function acquireParticle() {
+    return particlePool.find((el) => el.dataset.free === '1');
+  }
+
+  function spawnParticlesAt(x, y) {
+    const now = performance.now();
+    if (now - lastSpawnAt < SPAWN_COOLDOWN_MS) return;
+    lastSpawnAt = now;
+
+    if (!particleLayer) return;
+
+    for (let i = 0; i < PARTICLE_BURST; i++) {
+      const particle = acquireParticle();
+      if (!particle) break;
+
+      particle.dataset.free = '0';
+      particle.textContent = PARTICLE_EMOJIS[i];
+      particle.style.left = `${x}px`;
+      particle.style.top = `${y}px`;
+      particle.style.fontSize = `${14 + Math.random() * 12}px`;
+      particle.style.setProperty('--dx', `${(Math.random() - 0.5) * 180}px`);
+      particle.style.setProperty('--dy', `${(Math.random() - 0.5) * 180}px`);
+
+      particle.classList.remove('is-flying');
+      void particle.offsetWidth;
+      particle.classList.add('is-flying');
+    }
+  }
+
+  function shouldSkipParticleClick(target) {
+    if (!(target instanceof Element)) return true;
+    return Boolean(
+      target.closest('textarea, input, select, [contenteditable="true"], .particle-layer')
+    );
+  }
+
+  function bindGlobalParticles() {
+    document.addEventListener('click', (e) => {
+      if (shouldSkipParticleClick(e.target)) return;
+      spawnParticlesAt(e.clientX, e.clientY);
+    });
   }
 
   // ─── Progress ─────────────────────────────────────────
@@ -93,11 +138,7 @@
       const stages = progressStages.querySelectorAll('span');
       stages.forEach((s, i) => {
         const threshold = (i / (stages.length - 1)) * TOTAL_MODULES;
-        if (count >= threshold) {
-          s.classList.add('active');
-        } else {
-          s.classList.remove('active');
-        }
+        s.classList.toggle('active', count >= threshold);
       });
     }
   }
@@ -184,7 +225,10 @@
 
   // ─── Init ─────────────────────────────────────────────
   function init() {
-    renderModules();
+    initParticleLayer();
+    bindGlobalParticles();
+    bindModuleCards();
+    updateModuleStates();
     syncProgress();
 
     if (runBtn) runBtn.addEventListener('click', runCode);
@@ -196,7 +240,6 @@
       }
     });
 
-    // Keyboard shortcut: Ctrl/Cmd+Enter to run
     if (codeEditor) {
       codeEditor.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -208,7 +251,6 @@
 
     setupMobileMenu();
 
-    // Slow tick for donation counter
     setInterval(tickDonation, 8000);
     tickDonation();
 

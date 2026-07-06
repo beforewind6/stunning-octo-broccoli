@@ -337,6 +337,42 @@ a {
 .module-card.completed {
   border-color: var(--green-500);
 }
+
+/* === Particle burst (GPU-friendly) === */
+.particle-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+  contain: strict;
+}
+
+.particle {
+  position: fixed;
+  pointer-events: none;
+  visibility: hidden;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  margin: 0;
+  line-height: 1;
+}
+
+.particle.is-flying {
+  visibility: visible;
+  animation: particle-fly 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes particle-fly {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(var(--dx, 0), var(--dy, 0), 0) scale(0.65);
+    opacity: 0;
+  }
+}
 .module-card.completed::after {
   content: '✅';
   position: absolute;
